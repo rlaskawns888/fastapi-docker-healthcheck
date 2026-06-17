@@ -26,6 +26,7 @@ jobs:
           --health-retries 5
 
     env:
+      DATABASE_URL: postgresql://app_user:app_password@db:5432/ops_log
       DATABASE_TEST_URL: postgresql://app_user:app_password@localhost:5432/ops_log
 
     steps:
