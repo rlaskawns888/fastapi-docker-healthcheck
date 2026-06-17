@@ -10,6 +10,9 @@ jobs:
   test:
     runs-on: ubuntu-latest
 
+    env:
+      DATABASE_URL: postgresql+psycopg2://app_user:app_password@localhost:5432/ops_log
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
