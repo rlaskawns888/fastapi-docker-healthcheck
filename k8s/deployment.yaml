@@ -1,0 +1,21 @@
+# kubectl apply -f k8s/deployment.yaml
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+ name: my-nginx
+spec:
+ replicas: 1 #Pod 1개유지 
+ selector:
+  matchLabels:
+   app: my-nginx
+ template:
+  metadata:
+   labels:
+    app: my-nginx
+  spec:
+   containers:
+    - name: nginx
+      image: nginx
+      ports: 
+       - containerPort: 80
