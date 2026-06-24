@@ -15,17 +15,20 @@ spec:
       containers:
         - name: fastapi-app
           image: ghcr.io/rlaskawns888/fastapi-docker-healthcheck:latest
+          # image: ghcr.io/rlaskawns888/fastapi-docker-healthcheck:ImagePullBackOff_TEST #ImagePullBackOff Test
           ports:
             - containerPort: 8000
           envFrom:
             - configMapRef:
                 name: fastapi-config
           resources:
-           requests: #최소 요청량
+           requests:
             memory: "128Mi"
+            # memory: "10Mi" #OOMKilled test
             cpu: "100m"
            limits:
             memory: "256Mi"
+            # memory: "20Mi" #OOMKilled test
             cpu: "500m"
           livenessProbe: #컨테이너 구동 여부 체크(미구동 시 실행)
            httpGet:
@@ -36,6 +39,8 @@ spec:
           readinessProbe: #트래픽 여부 체크
            httpGet:
             path: /health
+            # path: /not-exist-path
+            # [TEST] Readiness 실패 — Pod는 Running인데 트래픽은 못 받는 상황
             port: 8000
            initialDelaySeconds: 5 #컨테이너 실행 후 5초 후 실행
            periodSeconds: 5 #몇 초 마다 반복할지
