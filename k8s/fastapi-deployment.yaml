@@ -20,6 +20,25 @@ spec:
           envFrom:
             - configMapRef:
                 name: fastapi-config
+          resources:
+           requests: #최소 요청량
+            memory: "128Mi"
+            cpu: "100m"
+           limits:
+            memory: "256Mi"
+            cpu: "500m"
+          livenessProbe: #컨테이너 구동 여부 체크(미구동 시 실행)
+           httpGet:
+            path: /health
+            port: 8000
+           initialDelaySeconds: 5
+           periodSeconds: 10
+          readinessProbe: #트래픽 여부 체크
+           httpGet:
+            path: /health
+            port: 8000
+           initialDelaySeconds: 5 #컨테이너 실행 후 5초 후 실행
+           periodSeconds: 5 #몇 초 마다 반복할지
 ---
 apiVersion: v1
 kind: Service
